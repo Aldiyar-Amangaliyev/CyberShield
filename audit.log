@@ -23,3 +23,54 @@
 2026-09-29 21:11:24,032 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
 2026-09-29 21:11:43,597 - INFO - Admin 1102446167 requested audit logs.
 2026-09-29 21:11:44,034 - INFO - Update id=99634291 is handled. Duration 453 ms by bot id=8864133420
+2026-09-29 21:16:28,999 - INFO - CyberShield security system started successfully.
+2026-09-29 21:16:28,999 - INFO - Start polling
+2026-09-29 21:16:29,320 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
+2026-09-29 21:16:29,425 - INFO - AFC is enabled with max remote calls: 10.
+2026-09-29 21:16:29,425 - WARNING - Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+2026-09-29 21:16:31,165 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-09-29 21:16:31,168 - WARNING - SECURITY INCIDENT: AI flagged message as dangerous from user 1102446167
+2026-09-29 21:16:31,184 - INFO - Text check processed for user 1102446167: ОПАСНО
+2026-09-29 21:16:31,580 - INFO - Update id=99634292 is handled. Duration 2155 ms by bot id=8864133420
+2026-09-29 21:16:31,594 - INFO - Update id=99634295 is handled. Duration 2171 ms by bot id=8864133420
+2026-09-29 21:16:31,631 - INFO - Update id=99634294 is handled. Duration 2202 ms by bot id=8864133420
+2026-09-29 21:16:31,653 - INFO - Update id=99634293 is handled. Duration 2217 ms by bot id=8864133420
+2026-09-29 21:16:43,066 - INFO - Update id=99634296 is handled. Duration 125 ms by bot id=8864133420
+2026-09-29 21:18:04,798 - INFO - CyberShield security system started successfully.
+2026-09-29 21:18:04,799 - INFO - Start polling
+2026-09-29 21:18:05,090 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
+2026-09-29 21:18:15,494 - INFO - Update id=99634297 is handled. Duration 359 ms by bot id=8864133420
+2026-09-29 21:18:28,830 - INFO - AFC is enabled with max remote calls: 10.
+2026-09-29 21:18:28,830 - WARNING - Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+2026-09-29 21:18:31,348 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-09-29 21:18:31,350 - WARNING - SECURITY INCIDENT: AI flagged message as dangerous from user 1102446167
+2026-09-29 21:18:31,358 - INFO - Text check processed for user 1102446167: ОПАСНО
+2026-09-29 21:18:31,508 - INFO - Update id=99634298 is handled. Duration 2671 ms by bot id=8864133420
+2026-09-29 21:18:42,708 - INFO - AFC is enabled with max remote calls: 10.
+2026-09-29 21:18:47,033 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-09-29 21:18:47,034 - WARNING - SECURITY INCIDENT: AI flagged message as dangerous from user 1102446167
+2026-09-29 21:18:47,042 - INFO - Text check processed for user 1102446167: ОПАСНО
+2026-09-29 21:18:47,307 - INFO - Update id=99634299 is handled. Duration 4594 ms by bot id=8864133420
+2026-09-29 21:18:53,856 - INFO - Admin 1102446167 exported security report.
+2026-09-29 21:18:53,856 - INFO - Update id=99634300 is handled. Duration 203 ms by bot id=8864133420
+2026-09-29 21:21:51,645 - INFO - CyberShield Enterprise security system started successfully.
+2026-09-29 21:21:51,646 - INFO - Start polling
+2026-09-29 21:21:51,985 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
+2026-09-29 21:22:37,903 - INFO - User 1102446167 started the bot.
+2026-09-29 21:22:38,243 - INFO - Update id=99634301 is handled. Duration 344 ms by bot id=8864133420
+2026-09-29 21:23:09,971 - INFO - Update id=99634302 is handled. Duration 234 ms by bot id=8864133420
+2026-09-29 21:23:11,653 - INFO - Update id=99634303 is handled. Duration 250 ms by bot id=8864133420
+2026-09-29 21:23:13,113 - INFO - Admin 8864133420 exported security report.
+2026-09-29 21:23:13,215 - INFO - Update id=99634304 is handled. Duration 250 ms by bot id=8864133420
+2026-09-29 21:23:15,556 - INFO - AFC is enabled with max remote calls: 10.
+2026-09-29 21:23:15,556 - WARNING - Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+2026-09-29 21:23:18,119 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-09-29 21:23:18,123 - WARNING - SECURITY INCIDENT: AI flagged message as dangerous from user 1102446167
+2026-09-29 21:23:18,139 - INFO - Text check processed for user 1102446167: ОПАСНО
+2026-09-29 21:23:18,152 - INFO - AFC is enabled with max remote calls: 10.
+2026-09-29 21:23:19,947 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-09-29 21:23:19,949 - WARNING - SECURITY INCIDENT: AI flagged message as dangerous from user 1102446167
+2026-09-29 21:23:19,964 - INFO - Text check processed for user 1102446167: ОПАСНО
+2026-09-29 21:23:19,982 - INFO - Update id=99634305 is handled. Duration 4421 ms by bot id=8864133420
+2026-09-29 21:23:20,141 - INFO - Update id=99634307 is handled. Duration 171 ms by bot id=8864133420
+2026-09-29 21:23:20,255 - INFO - Update id=99634306 is handled. Duration 2109 ms by bot id=8864133420
