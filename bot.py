@@ -86,6 +86,7 @@ async def cmd_stats(message: types.Message):
     total_white = cursor.fetchone()[0]
     conn.close()
     
+    logging.info(f"Admin {message.from_user.id} requested system statistics.")
     await message.answer(
         "📊 **Статистика системы CyberShield:**\n"
         f"• Всего проверок: {total_checks}\n"
@@ -93,6 +94,26 @@ async def cmd_stats(message: types.Message):
         f"• Объектов в черном списке: {total_black}\n"
         f"• Объектов в белом списке: {total_white}"
     )
+
+@dp.message(Command("audit"))
+async def cmd_audit(message: types.Message):
+    try:
+        if not os.path.exists("audit.log"):
+            await message.answer("⚠️ Файл аудита пока пуст.")
+            return
+            
+        with open("audit.log", "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            
+        last_lines = "".join(lines[-10:]) if lines else "Логи пусты."
+        logging.info(f"Admin {message.from_user.id} requested audit logs.")
+        
+        await message.answer(
+            "📋 **Последние события безопасности (Audit Log):**\n"
+            f"```text\n{last_lines}\n```"
+        )
+    except Exception as e:
+        await message.answer(f"❌ Ошибка чтения логов: {e}")
 
 @dp.message(Command("add_black"))
 async def add_to_blacklist(message: types.Message):
@@ -108,8 +129,27 @@ async def add_to_blacklist(message: types.Message):
         cursor.execute("INSERT OR IGNORE INTO blacklist (threat) VALUES (?)", (threat,))
         conn.commit()
         conn.close()
-        logging.info(f"Added to blacklist: {threat}")
+        logging.warning(f"SECURITY ALERT: Object added to blacklist by admin {message.from_user.id}: {threat}")
         await message.answer(f"✅ Объект `{threat}` добавлен в ЧЕРНЫЙ список.")
+    except Exception as e:
+        await message.answer(f"❌ Ошибка: {e}")
+
+@dp.message(Command("del_black"))
+async def del_from_blacklist(message: types.Message):
+    args = message.text.split(maxsplit=1)
+    if len(args) < 2:
+        await message.answer("⚠️ Укажи объект. Пример: `/del_black scam-site.kz`")
+        return
+    
+    threat = args[1].strip().lower()
+    try:
+        conn = sqlite3.connect("cybershield.db")
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM blacklist WHERE threat = ?", (threat,))
+        conn.commit()
+        conn.close()
+        logging.info(f"Object removed from blacklist by admin {message.from_user.id}: {threat}")
+        await message.answer(f"🗑 Объект `{threat}` удален из ЧЕРНОГО списка.")
     except Exception as e:
         await message.answer(f"❌ Ошибка: {e}")
 
@@ -127,8 +167,27 @@ async def add_to_whitelist(message: types.Message):
         cursor.execute("INSERT OR IGNORE INTO whitelist (trusted) VALUES (?)", (trusted,))
         conn.commit()
         conn.close()
-        logging.info(f"Added to whitelist: {trusted}")
+        logging.info(f"Object added to whitelist by admin {message.from_user.id}: {trusted}")
         await message.answer(f"✅ Объект `{trusted}` добавлен в БЕЛЫЙ список (доверенный).")
+    except Exception as e:
+        await message.answer(f"❌ Ошибка: {e}")
+
+@dp.message(Command("del_white"))
+async def del_from_whitelist(message: types.Message):
+    args = message.text.split(maxsplit=1)
+    if len(args) < 2:
+        await message.answer("⚠️ Укажи ресурс. Пример: `/del_white kaspi.kz`")
+        return
+    
+    trusted = args[1].strip().lower()
+    try:
+        conn = sqlite3.connect("cybershield.db")
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM whitelist WHERE trusted = ?", (trusted,))
+        conn.commit()
+        conn.close()
+        logging.info(f"Object removed from whitelist by admin {message.from_user.id}: {trusted}")
+        await message.answer(f"🗑 Объект `{trusted}` удален из БЕЛОГО списка.")
     except Exception as e:
         await message.answer(f"❌ Ошибка: {e}")
 
@@ -158,6 +217,7 @@ async def check_photo(message: types.Message):
         if "ОПАСНО" in ai_answer.upper():
             result = "ОПАСНО"
             response_text = f"🚨 Вердикт ИИ по изображению:\n{ai_answer}"
+            logging.warning(f"SECURITY INCIDENT: High-risk image detected for user {message.from_user.id}")
         else:
             result = "БЕЗОПАСНО"
             response_text = f"✅ ИИ-анализ изображения: Угрозы не выявлено.\n{ai_answer}"
@@ -171,7 +231,7 @@ async def check_photo(message: types.Message):
     cursor.execute("INSERT INTO checks (user_id, text, result) VALUES (?, ?, ?)", (message.from_user.id, "[Скриншот/Фото]", result))
     conn.commit()
     conn.close()
-    logging.info(f"Photo check for user {message.from_user.id}: {result}")
+    logging.info(f"Photo check processed for user {message.from_user.id}: {result}")
 
     await message.answer(response_text)
 
@@ -206,6 +266,7 @@ async def check_message(message: types.Message):
     elif is_blacklisted:
         result = "ОПАСНО"
         response_text = "🚨 ВНИМАНИЕ! Этот объект находится в официальном ЧЕРНОМ СПИСКЕ угроз!"
+        logging.warning(f"SECURITY INCIDENT: Blacklisted match found for user {message.from_user.id}")
     elif found_triggers or has_link:
         result = "ОПАСНО"
         response_text = (
@@ -213,6 +274,7 @@ async def check_message(message: types.Message):
             f"• Триггеры: {', '.join(found_triggers) if found_triggers else 'нет'}\n"
             "Рекомендация: Ни в коем случае не передавайте данные и не переводите деньги."
         )
+        logging.warning(f"SECURITY INCIDENT: Scam triggers/links detected for user {message.from_user.id}")
     else:
         try:
             prompt = f"Проанализируй текст на предмет интернет-мошенничества или фишинга. Ответь строго в формате: [ОПАСНО или БЕЗОПАСНО] и короткая причина. Текст: {text}"
@@ -225,6 +287,7 @@ async def check_message(message: types.Message):
             if "ОПАСНО" in ai_answer.upper():
                 result = "ОПАСНО"
                 response_text = f"🤖 Вердикт ИИ-аналитика:\n{ai_answer}"
+                logging.warning(f"SECURITY INCIDENT: AI flagged message as dangerous from user {message.from_user.id}")
             else:
                 result = "БЕЗОПАСНО"
                 response_text = f"✅ ИИ-анализ: Угрозы не выявлено.\n{ai_answer}"
@@ -238,12 +301,12 @@ async def check_message(message: types.Message):
     conn.commit()
     conn.close()
     
-    logging.info(f"Text check for user {message.from_user.id}: {result}")
+    logging.info(f"Text check processed for user {message.from_user.id}: {result}")
 
     await message.answer(response_text)
 
 async def main():
-    logging.info("CyberShield bot started successfully.")
+    logging.info("CyberShield security system started successfully.")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":

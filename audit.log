@@ -2,3 +2,24 @@
 2026-09-29 20:54:01,243 - INFO - Start polling
 2026-09-29 20:54:01,568 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
 2026-09-29 20:54:24,296 - INFO - Update id=99634285 is handled. Duration 328 ms by bot id=8864133420
+2026-09-29 21:05:55,211 - INFO - CyberShield security system started successfully.
+2026-09-29 21:05:55,212 - INFO - Start polling
+2026-09-29 21:05:55,493 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
+2026-09-29 21:06:12,756 - WARNING - SECURITY INCIDENT: Blacklisted match found for user 1102446167
+2026-09-29 21:06:12,765 - INFO - Text check processed for user 1102446167: ОПАСНО
+2026-09-29 21:06:13,064 - INFO - Update id=99634286 is handled. Duration 312 ms by bot id=8864133420
+2026-09-29 21:06:18,272 - INFO - Admin 1102446167 requested system statistics.
+2026-09-29 21:06:18,391 - INFO - Update id=99634287 is handled. Duration 125 ms by bot id=8864133420
+2026-09-29 21:08:20,348 - INFO - CyberShield security system started successfully.
+2026-09-29 21:08:20,348 - INFO - Start polling
+2026-09-29 21:08:20,674 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
+2026-09-29 21:08:24,703 - INFO - Update id=99634288 is handled. Duration 328 ms by bot id=8864133420
+2026-09-29 21:08:41,641 - INFO - Object removed from blacklist by admin 1102446167: scam-site.kz
+2026-09-29 21:08:41,765 - INFO - Update id=99634289 is handled. Duration 140 ms by bot id=8864133420
+2026-09-29 21:09:08,673 - INFO - Object removed from whitelist by admin 1102446167: kaspi.kz
+2026-09-29 21:09:08,800 - INFO - Update id=99634290 is handled. Duration 141 ms by bot id=8864133420
+2026-09-29 21:11:23,723 - INFO - CyberShield security system started successfully.
+2026-09-29 21:11:23,724 - INFO - Start polling
+2026-09-29 21:11:24,032 - INFO - Run polling for bot @cybershield_security_bot id=8864133420 - 'CyberShield'
+2026-09-29 21:11:43,597 - INFO - Admin 1102446167 requested audit logs.
+2026-09-29 21:11:44,034 - INFO - Update id=99634291 is handled. Duration 453 ms by bot id=8864133420
