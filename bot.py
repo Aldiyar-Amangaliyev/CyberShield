@@ -18,6 +18,15 @@ dp = Dispatcher()
 
 ai_client = genai.Client(api_key=API_KEY)
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("audit.log", encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
+
 def init_db():
     conn = sqlite3.connect("cybershield.db")
     cursor = conn.cursor()
@@ -54,9 +63,35 @@ SCAM_WORDS = [
 
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
+    logging.info(f"User {message.from_user.id} started the bot.")
     await message.answer(
         "Здравствуй! Я — система CyberShield с ИИ, OCR и модулем баз данных.\n"
         "Отправь мне текст, ссылку или скриншот/чек для анализа на мошенничество."
+    )
+
+@dp.message(Command("stats"))
+async def cmd_stats(message: types.Message):
+    conn = sqlite3.connect("cybershield.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM checks")
+    total_checks = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*) FROM checks WHERE result = 'ОПАСНО'")
+    total_danger = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*) FROM blacklist")
+    total_black = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*) FROM whitelist")
+    total_white = cursor.fetchone()[0]
+    conn.close()
+    
+    await message.answer(
+        "📊 **Статистика системы CyberShield:**\n"
+        f"• Всего проверок: {total_checks}\n"
+        f"• Выявлено угроз: {total_danger}\n"
+        f"• Объектов в черном списке: {total_black}\n"
+        f"• Объектов в белом списке: {total_white}"
     )
 
 @dp.message(Command("add_black"))
@@ -73,6 +108,7 @@ async def add_to_blacklist(message: types.Message):
         cursor.execute("INSERT OR IGNORE INTO blacklist (threat) VALUES (?)", (threat,))
         conn.commit()
         conn.close()
+        logging.info(f"Added to blacklist: {threat}")
         await message.answer(f"✅ Объект `{threat}` добавлен в ЧЕРНЫЙ список.")
     except Exception as e:
         await message.answer(f"❌ Ошибка: {e}")
@@ -91,6 +127,7 @@ async def add_to_whitelist(message: types.Message):
         cursor.execute("INSERT OR IGNORE INTO whitelist (trusted) VALUES (?)", (trusted,))
         conn.commit()
         conn.close()
+        logging.info(f"Added to whitelist: {trusted}")
         await message.answer(f"✅ Объект `{trusted}` добавлен в БЕЛЫЙ список (доверенный).")
     except Exception as e:
         await message.answer(f"❌ Ошибка: {e}")
@@ -134,6 +171,7 @@ async def check_photo(message: types.Message):
     cursor.execute("INSERT INTO checks (user_id, text, result) VALUES (?, ?, ?)", (message.from_user.id, "[Скриншот/Фото]", result))
     conn.commit()
     conn.close()
+    logging.info(f"Photo check for user {message.from_user.id}: {result}")
 
     await message.answer(response_text)
 
@@ -199,12 +237,14 @@ async def check_message(message: types.Message):
     cursor.execute("INSERT INTO checks (user_id, text, result) VALUES (?, ?, ?)", (message.from_user.id, text, result))
     conn.commit()
     conn.close()
+    
+    logging.info(f"Text check for user {message.from_user.id}: {result}")
 
     await message.answer(response_text)
 
 async def main():
+    logging.info("CyberShield bot started successfully.")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
